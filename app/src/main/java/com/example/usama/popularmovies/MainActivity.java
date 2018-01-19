@@ -14,10 +14,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.usama.popularmovies.adapters.RecyclerAdapter;
+import com.example.usama.popularmovies.contracts.MovieDbApi;
+import com.example.usama.popularmovies.model.Movie;
 import com.example.usama.popularmovies.utils.HttpHelper;
+import com.example.usama.popularmovies.utils.JsonHelper;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
+
+import static com.example.usama.popularmovies.contracts.MovieDbApi.MovieAPiConstants.POPULAR_MOVIES;
+import static com.example.usama.popularmovies.contracts.MovieDbApi.MovieAPiConstants.page;
 
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>{
@@ -25,8 +32,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     RecyclerView.Adapter adapter;
-    static String KEY = "YOUR KEY";
-    static String URL = "https://api.themoviedb.org/3/movie/550?api_key=" + KEY;
+    static String URL = POPULAR_MOVIES+page;
 
 
     @Override
@@ -76,7 +82,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<String> loader, String s) {
-        Log.i("DATA",s);
+        ArrayList<Movie> movies = JsonHelper.json2Movies(s);
+
     }
 
     @Override

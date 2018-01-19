@@ -1,12 +1,15 @@
 package com.example.usama.popularmovies.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.example.usama.popularmovies.DetailedActivity;
 import com.example.usama.popularmovies.R;
 import com.example.usama.popularmovies.model.Movie;
 import com.squareup.picasso.Picasso;
@@ -56,9 +59,17 @@ public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter<MoviesRecycl
     class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView moviePosterImageView;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(final View itemView) {
             super(itemView);
             moviePosterImageView = (ImageView) itemView.findViewById(R.id.moviePosterImageView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    //Toast.makeText(itemView.getContext(), "Clicked", Toast.LENGTH_SHORT).show();
+                    itemView.getContext().startActivity(new Intent(itemView.getContext(), DetailedActivity.class));
+                }
+            });
         }
     }
 

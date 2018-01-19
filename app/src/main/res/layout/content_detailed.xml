@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.usama.popularmovies.DetailedActivity"
+    tools:layout_editor_absoluteY="81dp"
+    tools:showIn="@layout/activity_detailed">
+
+    <ImageView
+        android:id="@+id/detailedMoviePosterImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="74dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/detailedMovieTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Title" />
+
+    <TextView
+        android:id="@+id/detailedReleaseDateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@+id/detailedMovieTitleTextView"
+        app:layout_constraintTop_toBottomOf="@+id/detailedMovieTitleTextView"
+        tools:text="Realease Date" />
+
+    <TextView
+        android:id="@+id/detailedVoteAverageTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="@+id/detailedReleaseDateTextView"
+        app:layout_constraintTop_toBottomOf="@+id/detailedReleaseDateTextView"
+        tools:text="Vote Average" />
+
+    <TextView
+        android:id="@+id/detailedMovieOverviewTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="62dp"
+        app:layout_constraintStart_toEndOf="@+id/detailedMoviePosterImageView"
+        app:layout_constraintTop_toBottomOf="@+id/detailedMoviePosterImageView"
+        tools:text="overview" />
+</android.support.constraint.ConstraintLayout>

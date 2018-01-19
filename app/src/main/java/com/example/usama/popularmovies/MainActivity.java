@@ -1,24 +1,33 @@
 package com.example.usama.popularmovies;
 
+import android.app.LoaderManager;
+import android.content.AsyncTaskLoader;
+import android.content.Context;
+import android.content.Loader;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.usama.popularmovies.adapters.RecyclerAdapter;
+import com.example.usama.popularmovies.utils.HttpHelper;
 
-public class MainActivity extends AppCompatActivity {
+import java.io.IOException;
+import java.net.URI;
+
+
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>{
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     RecyclerView.Adapter adapter;
+    static String KEY = "YOUR KEY";
+    static String URL = "https://api.themoviedb.org/3/movie/550?api_key=" + KEY;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +36,10 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        getLoaderManager().initLoader(0, null, this).forceLoad();
+
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        layoutManager = new GridLayoutManager(this,2);
+        layoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new RecyclerAdapter();
         recyclerView.setAdapter(adapter);
@@ -57,4 +68,39 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public Loader<String> onCreateLoader(int i, Bundle bundle) {
+        return new MovieTaskLoader(this);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<String> loader, String s) {
+        Log.i("DATA",s);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<String> loader) {
+
+    }
+
+    private static class MovieTaskLoader extends AsyncTaskLoader<String> {
+
+        public MovieTaskLoader(Context context) {
+            super(context);
+        }
+
+        @Override
+        public String loadInBackground() {
+            String httpResponse = null;
+            try {
+                httpResponse = HttpHelper.run(URL);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return httpResponse;
+        }
+    }
+
+
 }

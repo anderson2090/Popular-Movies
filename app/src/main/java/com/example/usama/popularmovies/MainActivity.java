@@ -9,18 +9,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.usama.popularmovies.adapters.RecyclerAdapter;
-import com.example.usama.popularmovies.contracts.MovieDbApi;
+import com.example.usama.popularmovies.adapters.MoviesRecyclerViewAdapter;
 import com.example.usama.popularmovies.model.Movie;
 import com.example.usama.popularmovies.utils.HttpHelper;
 import com.example.usama.popularmovies.utils.JsonHelper;
 
 import java.io.IOException;
-import java.net.URI;
 import java.util.ArrayList;
 
 import static com.example.usama.popularmovies.contracts.MovieDbApi.MovieAPiConstants.POPULAR_MOVIES;
@@ -31,7 +28,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
-    RecyclerView.Adapter adapter;
+    MoviesRecyclerViewAdapter moviesAdapter;
+    ArrayList<Movie> movies;
     static String URL = POPULAR_MOVIES+page;
 
 
@@ -42,13 +40,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getLoaderManager().initLoader(0, null, this).forceLoad();
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        layoutManager = new GridLayoutManager(this, 2);
-        recyclerView.setLayoutManager(layoutManager);
-        adapter = new RecyclerAdapter();
-        recyclerView.setAdapter(adapter);
+
+//        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+//        layoutManager = new GridLayoutManager(this, 2);
+//        recyclerView.setLayoutManager(layoutManager);
+//        moviesAdapter = new MoviesRecyclerViewAdapter(this);
+//
+//        recyclerView.setAdapter(moviesAdapter);
+        getLoaderManager().initLoader(0, null, this).forceLoad();
 
 
     }
@@ -82,7 +82,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<String> loader, String s) {
-        ArrayList<Movie> movies = JsonHelper.json2Movies(s);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        layoutManager = new GridLayoutManager(this, 2);
+        recyclerView.setLayoutManager(layoutManager);
+        moviesAdapter = new MoviesRecyclerViewAdapter(this);
+
+        recyclerView.setAdapter(moviesAdapter);
+        movies = JsonHelper.json2Movies(s);
+        moviesAdapter.setMovies(movies);
+
+
+
 
     }
 

@@ -1,7 +1,10 @@
 package com.example.usama.popularmovies.model;
 
 
-public class Movie {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Movie implements Parcelable {
 
     private String movieId;
     private String movieTitle;
@@ -75,4 +78,40 @@ public class Movie {
     public void setPlotSynopsis(String plotSynopsis) {
         this.plotSynopsis = plotSynopsis;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.movieId);
+        dest.writeString(this.movieTitle);
+        dest.writeString(this.movieReleaseDate);
+        dest.writeString(this.moviePosterPath);
+        dest.writeString(this.movieVoteAverage);
+        dest.writeString(this.plotSynopsis);
+    }
+
+    protected Movie(Parcel in) {
+        this.movieId = in.readString();
+        this.movieTitle = in.readString();
+        this.movieReleaseDate = in.readString();
+        this.moviePosterPath = in.readString();
+        this.movieVoteAverage = in.readString();
+        this.plotSynopsis = in.readString();
+    }
+
+    public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel source) {
+            return new Movie(source);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
 }

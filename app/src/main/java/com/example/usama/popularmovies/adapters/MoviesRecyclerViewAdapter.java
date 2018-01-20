@@ -66,8 +66,9 @@ public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter<MoviesRecycl
                 @Override
                 public void onClick(View view) {
 
-                    //Toast.makeText(itemView.getContext(), "Clicked", Toast.LENGTH_SHORT).show();
-                    itemView.getContext().startActivity(new Intent(itemView.getContext(), DetailedActivity.class));
+                    Intent intent = new Intent(itemView.getContext(), DetailedActivity.class);
+                    intent.putExtra("currentMovie", movies.get(getAdapterPosition()));
+                    itemView.getContext().startActivity(intent);
                 }
             });
         }

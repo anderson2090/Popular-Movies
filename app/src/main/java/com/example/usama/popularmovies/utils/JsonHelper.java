@@ -27,7 +27,12 @@ public class JsonHelper {
                 JSONObject movieJsonObject = moviesJsonArray.getJSONObject(i);
                 String movieId = movieJsonObject.getString("id");
                 String posterPath = POSTER_BASE_URL + POSTER_SIZE + movieJsonObject.getString("poster_path");
-                Movie movie = new Movie(movieId, posterPath);
+                String movieTitle = movieJsonObject.getString("title");
+                String movieReleaseDate = movieJsonObject.getString("release_date");
+                String movieVoteAverage = movieJsonObject.getString("vote_average");
+                String plotSynopsis = movieJsonObject.getString("overview");
+                Movie movie = new Movie(movieId, movieTitle, movieReleaseDate,
+                        posterPath, movieVoteAverage, plotSynopsis);
                 movies.add(movie);
             }
 

@@ -24,13 +24,13 @@ import static com.example.usama.popularmovies.contracts.MovieDbApi.MovieAPiConst
 import static com.example.usama.popularmovies.contracts.MovieDbApi.MovieAPiConstants.page;
 
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>{
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String> {
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     MoviesRecyclerViewAdapter moviesAdapter;
     ArrayList<Movie> movies;
-    static String URL = POPULAR_MOVIES+page;
+    static String URL = POPULAR_MOVIES + page;
 
 
     @Override
@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
 
 //        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -69,6 +68,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            if (this.getSupportActionBar().getTitle().toString()
+                    .equalsIgnoreCase("popular movies")) {
+                this.getSupportActionBar().setTitle("Top Rated Movies");
+                item.setTitle("Popular Movies");
+            }else {
+                this.getSupportActionBar().setTitle("Popular Movies");
+                item.setTitle("Top Rated Movies");
+            }
             return true;
         }
 
@@ -90,8 +97,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         recyclerView.setAdapter(moviesAdapter);
         movies = JsonHelper.json2Movies(s);
         moviesAdapter.setMovies(movies);
-
-
 
 
     }

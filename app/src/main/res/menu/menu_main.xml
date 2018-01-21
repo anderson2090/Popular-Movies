@@ -2,9 +2,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.usama.popularmovies.MainActivity">
-    <item
-        android:id="@+id/actionSortOrder"
-        android:orderInCategory="100"
-        android:title="@string/action_sort_order"
-        app:showAsAction="never" />
+    <group android:checkableBehavior="single" >
+        <item
+            android:id="@+id/popular_menu_item"
+            android:title="Popular Movies" />
+        <item
+            android:id="@+id/top_rated_menu_item"
+            android:title="Top Rated Movies" />
+    </group>
 </menu>

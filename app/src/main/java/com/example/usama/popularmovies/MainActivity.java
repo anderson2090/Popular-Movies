@@ -31,14 +31,13 @@ import static com.example.usama.popularmovies.contracts.MovieDbApi.MovieAPiConst
 import static com.example.usama.popularmovies.contracts.MovieDbApi.MovieAPiConstants.page;
 
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>
-       {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String> {
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     MoviesRecyclerViewAdapter moviesAdapter;
     private SharedPreferences preferences;
-    public static String sortBy;
+    public static String sortBy = "Popular Movies";
     ArrayList<Movie> movies;
     //static String url = POPULAR_MOVIES + page;
 
@@ -53,17 +52,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        sortBy = preferences.getString("prefSortBy", "Popular Movies");
+//        sortBy = preferences.getString("prefSortBy", "Popular Movies");
 
-        if (sortBy.equalsIgnoreCase("Popular Movies")) {
-            getSupportActionBar().setTitle("Popular Movies Page " + page);
-
-
-        } else if (sortBy.equalsIgnoreCase("Top Rated Movies")) {
-            getSupportActionBar().setTitle("Top Rated Movies Page " + page);
-
-
-        }
+//        if (sortBy.equalsIgnoreCase("Popular Movies")) {
+//            getSupportActionBar().setTitle("Popular Movies Page " + page);
+//
+//
+//        } else if (sortBy.equalsIgnoreCase("Top Rated Movies")) {
+//            getSupportActionBar().setTitle("Top Rated Movies Page " + page);
+//
+//
+//        }
 
 
         getLoaderManager().initLoader(0, null, this).forceLoad();
@@ -74,8 +73,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     protected void onRestart() {
         super.onRestart();
-        this.finish();
-        this.startActivity(new Intent(this, MainActivity.class));
+//        this.finish();
+//        this.startActivity(new Intent(this, MainActivity.class));
 
     }
 
@@ -83,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     protected void onResume() {
         super.onResume();
 
-        sortBy = preferences.getString("pref_sort", "Popular Movies");
+        // sortBy = preferences.getString("pref_sort", "Popular Movies");
 
     }
 
@@ -98,10 +97,26 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.actionSortOrder:
+            case R.id.popular_menu_item:
+                if (item.isChecked()) {
+                    item.setChecked(false);
+                } else {
+                    item.setChecked(true);
+                    sortBy = "Popular Movies";
+                    reloadActivity();
+                }
                 // Toast.makeText(getApplicationContext(), "Clicked", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(this, SettingActivity.class));
+                //startActivity(new Intent(this, SettingActivity.class));
 
+                return true;
+            case R.id.top_rated_menu_item:
+                if (item.isChecked()) {
+                    item.setChecked(false);
+                } else {
+                    item.setChecked(true);
+                    sortBy = "Top Rated Movies";
+                    reloadActivity();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -131,8 +146,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void onLoaderReset(Loader<String> loader) {
 
     }
-
-
 
 
     private static class MovieTaskLoader extends AsyncTaskLoader<String> {

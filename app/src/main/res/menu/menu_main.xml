@@ -4,6 +4,7 @@
     tools:context="com.example.usama.popularmovies.MainActivity">
     <group android:checkableBehavior="single">
         <item
+            android:checked="true"
             android:id="@+id/popular_menu_item"
             android:title="@string/popular_movies_menu_item" />
         <item

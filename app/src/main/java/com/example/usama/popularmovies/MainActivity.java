@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.usama.popularmovies.adapters.MoviesRecyclerViewAdapter;
 import com.example.usama.popularmovies.model.Movie;
@@ -64,8 +65,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         floatingActionButtonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                page++;
-                getLoaderManager().initLoader(0, null, MainActivity.this).forceLoad();
+                if (page >= 989) {
+                    Toast.makeText(getApplicationContext(), "There are no more pages", Toast.LENGTH_SHORT).show();
+                } else {
+                    page++;
+                    getLoaderManager().initLoader(0, null, MainActivity.this).forceLoad();
+                }
             }
         });
 
@@ -73,8 +78,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         floatingActionButtonPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                page--;
-                getLoaderManager().initLoader(0, null, MainActivity.this).forceLoad();
+                if (page == 1) {
+                    Toast.makeText(getApplicationContext(), "This are no more pages", Toast.LENGTH_SHORT).show();
+                } else {
+                    page--;
+                    getLoaderManager().initLoader(0, null, MainActivity.this).forceLoad();
+                }
             }
         });
     }

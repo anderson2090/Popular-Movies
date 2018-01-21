@@ -7,12 +7,14 @@ import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.Loader;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.usama.popularmovies.adapters.MoviesRecyclerViewAdapter;
 import com.example.usama.popularmovies.model.Movie;
@@ -38,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     ArrayList<Movie> movies;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,13 +55,28 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 .setUseDefaultSharedPreference(true)
                 .build();
 
-        sortBy = Prefs.getString("sortBy","Popular Movies");
-
+        sortBy = Prefs.getString("sortBy", "Popular Movies");
 
 
         getLoaderManager().initLoader(0, null, this).forceLoad();
 
+        FloatingActionButton floatingActionButtonNext = (FloatingActionButton) findViewById(R.id.rightFloatingActionButton);
+        floatingActionButtonNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                page++;
+                getLoaderManager().initLoader(0, null, MainActivity.this).forceLoad();
+            }
+        });
 
+        FloatingActionButton floatingActionButtonPrevious = (FloatingActionButton) findViewById(R.id.leftFloatingActionButton);
+        floatingActionButtonPrevious.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                page--;
+                getLoaderManager().initLoader(0, null, MainActivity.this).forceLoad();
+            }
+        });
     }
 
     @Override
@@ -72,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     protected void onResume() {
         super.onResume();
-
 
 
     }
@@ -87,15 +102,18 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
+
         switch (item.getItemId()) {
             case R.id.popular_menu_item:
                 if (item.isChecked()) {
                     item.setChecked(false);
 
+
                 } else {
                     item.setChecked(true);
+
                     sortBy = "Popular Movies";
-                    Prefs.putString("sortBy",sortBy);
+                    Prefs.putString("sortBy", sortBy);
 
                 }
                 getLoaderManager().initLoader(0, null, this).forceLoad();
@@ -104,10 +122,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             case R.id.top_rated_menu_item:
                 if (item.isChecked()) {
                     item.setChecked(false);
+
                 } else {
                     item.setChecked(true);
+
                     sortBy = "Top Rated Movies";
-                    Prefs.putString("sortBy",sortBy);
+                    Prefs.putString("sortBy", sortBy);
 
                 }
                 getLoaderManager().initLoader(0, null, this).forceLoad();

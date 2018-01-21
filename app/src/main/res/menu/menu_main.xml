@@ -5,7 +5,6 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/popular_menu_item"
-            android:checked="true"
             android:title="@string/popular_movies_menu_item" />
         <item
             android:id="@+id/top_rated_menu_item"

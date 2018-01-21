@@ -3,6 +3,7 @@ package com.example.usama.popularmovies;
 import android.app.LoaderManager;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.Loader;
 import android.os.Bundle;
@@ -17,6 +18,8 @@ import com.example.usama.popularmovies.adapters.MoviesRecyclerViewAdapter;
 import com.example.usama.popularmovies.model.Movie;
 import com.example.usama.popularmovies.utils.HttpHelper;
 import com.example.usama.popularmovies.utils.JsonHelper;
+import com.pixplicity.easyprefs.library.Prefs;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     MoviesRecyclerViewAdapter moviesAdapter;
-    public static String sortBy = "Popular Movies";
+    public static String sortBy = null;
     ArrayList<Movie> movies;
 
 
@@ -43,6 +46,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        new Prefs.Builder()
+                .setContext(this)
+                .setMode(ContextWrapper.MODE_PRIVATE)
+                .setPrefsName(getPackageName())
+                .setUseDefaultSharedPreference(true)
+                .build();
+
+        sortBy = Prefs.getString("sortBy","Popular Movies");
 
 
 
@@ -83,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 } else {
                     item.setChecked(true);
                     sortBy = "Popular Movies";
+                    Prefs.putString("sortBy",sortBy);
 
                 }
                 getLoaderManager().initLoader(0, null, this).forceLoad();
@@ -94,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 } else {
                     item.setChecked(true);
                     sortBy = "Top Rated Movies";
+                    Prefs.putString("sortBy",sortBy);
 
                 }
                 getLoaderManager().initLoader(0, null, this).forceLoad();

@@ -2,12 +2,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.usama.popularmovies.MainActivity">
-    <group android:checkableBehavior="single" >
+    <group android:checkableBehavior="single">
         <item
             android:id="@+id/popular_menu_item"
-            android:title="Popular Movies" />
+            android:checked="true"
+            android:title="@string/popular_movies_menu_item" />
         <item
             android:id="@+id/top_rated_menu_item"
-            android:title="Top Rated Movies" />
+            android:title="@string/top_rated_movies_menu_item" />
     </group>
 </menu>

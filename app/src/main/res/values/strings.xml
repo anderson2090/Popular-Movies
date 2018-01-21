@@ -14,8 +14,8 @@
     </string-array>
     <string name="title_activity_settings">Settings</string>
 
-    <!-- Strings related to Settings -->
-
-    <!-- Example General settings -->
+   <!--Menu-->
+    <string name="popular_movies_menu_item">Popular Movies</string>
+    <string name="top_rated_movies_menu_item">Top Rated Movies</string>
 
 </resources>

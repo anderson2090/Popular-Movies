@@ -30,7 +30,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.usama.popularmovies.MainActivity" />
         </activity>
-        <activity android:name=".SettingActivity"></activity>
     </application>
 
 </manifest>

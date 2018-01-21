@@ -1,11 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainActivityRootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.usama.popularmovies.MainActivity"
     tools:showIn="@layout/activity_main">
 
-</android.support.constraint.ConstraintLayout>
+    <RelativeLayout
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/containerRelativeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </RelativeLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/rightFloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:clickable="true"
+        android:focusable="true"
+        app:srcCompat="@drawable/ic_arrow_forward_black_24dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/leftFloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:clickable="true"
+        android:focusable="true"
+        app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
+</RelativeLayout>

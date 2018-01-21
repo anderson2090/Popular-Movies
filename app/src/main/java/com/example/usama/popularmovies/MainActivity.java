@@ -3,14 +3,18 @@ package com.example.usama.popularmovies;
 import android.app.LoaderManager;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
+import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.usama.popularmovies.adapters.MoviesRecyclerViewAdapter;
 import com.example.usama.popularmovies.model.Movie;
@@ -19,36 +23,67 @@ import com.example.usama.popularmovies.utils.JsonHelper;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.prefs.PreferenceChangeEvent;
+import java.util.prefs.PreferenceChangeListener;
 
 import static com.example.usama.popularmovies.contracts.MovieDbApi.MovieAPiConstants.POPULAR_MOVIES;
+import static com.example.usama.popularmovies.contracts.MovieDbApi.MovieAPiConstants.TOP_RATED_MOVIES;
 import static com.example.usama.popularmovies.contracts.MovieDbApi.MovieAPiConstants.page;
 
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String> {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>
+       {
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     MoviesRecyclerViewAdapter moviesAdapter;
+    private SharedPreferences preferences;
+    public static String sortBy;
     ArrayList<Movie> movies;
-    static String URL = POPULAR_MOVIES + page;
+    //static String url = POPULAR_MOVIES + page;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sortBy = preferences.getString("prefSortBy", "Popular Movies");
 
-//        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-//        layoutManager = new GridLayoutManager(this, 2);
-//        recyclerView.setLayoutManager(layoutManager);
-//        moviesAdapter = new MoviesRecyclerViewAdapter(this);
-//
-//        recyclerView.setAdapter(moviesAdapter);
+        if (sortBy.equalsIgnoreCase("Popular Movies")) {
+            getSupportActionBar().setTitle("Popular Movies Page " + page);
+
+
+        } else if (sortBy.equalsIgnoreCase("Top Rated Movies")) {
+            getSupportActionBar().setTitle("Top Rated Movies Page " + page);
+
+
+        }
+
+
         getLoaderManager().initLoader(0, null, this).forceLoad();
 
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        this.finish();
+        this.startActivity(new Intent(this, MainActivity.class));
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        sortBy = preferences.getString("pref_sort", "Popular Movies");
 
     }
 
@@ -61,25 +96,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            if (this.getSupportActionBar().getTitle().toString()
-                    .equalsIgnoreCase("popular movies")) {
-                this.getSupportActionBar().setTitle("Top Rated Movies");
-                item.setTitle("Popular Movies");
-            }else {
-                this.getSupportActionBar().setTitle("Popular Movies");
-                item.setTitle("Top Rated Movies");
-            }
-            return true;
+        switch (item.getItemId()) {
+            case R.id.actionSortOrder:
+                // Toast.makeText(getApplicationContext(), "Clicked", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, SettingActivity.class));
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -106,22 +132,43 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     }
 
+
+
+
     private static class MovieTaskLoader extends AsyncTaskLoader<String> {
+
 
         public MovieTaskLoader(Context context) {
             super(context);
+
         }
 
         @Override
         public String loadInBackground() {
             String httpResponse = null;
             try {
-                httpResponse = HttpHelper.run(URL);
+                if (sortBy.equalsIgnoreCase("Popular Movies")) {
+                    httpResponse = HttpHelper.run(POPULAR_MOVIES + page);
+                } else {
+                    httpResponse = HttpHelper.run(TOP_RATED_MOVIES + page);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
             return httpResponse;
         }
+
+
+    }
+
+    public void reloadActivity() {
+        Intent intent = getIntent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        finish();
+        overridePendingTransition(0, 0);
+
+        startActivity(intent);
+        overridePendingTransition(0, 0);
     }
 
 

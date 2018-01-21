@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 .setUseDefaultSharedPreference(true)
                 .build();
 
-        sortBy = Prefs.getString("sortBy", "Popular Movies");
+        sortBy= Prefs.getString("sortBy", "Popular Movies");
 
 
         getLoaderManager().initLoader(0, null, this).forceLoad();

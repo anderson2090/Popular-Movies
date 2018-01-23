@@ -3,7 +3,9 @@ package com.example.usama.popularmovies;
 import android.app.LoaderManager;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
+import android.content.Intent;
 import android.content.Loader;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -60,14 +62,22 @@ public class DetailedActivity extends AppCompatActivity {
             @Override
             public void onLoadFinished(Loader<String> loader, String s) {
                 ArrayList<Trailer> trailers = JsonHelper.json2Trailers(s);
-                RelativeLayout trailersListLinearLayout = (RelativeLayout) findViewById(R.id.trailersRelativeLayout);
-                for (Trailer trailer : trailers) {
-                    LinearLayout linearLayout = new LinearLayout(DetailedActivity.this);
-                    TextView trailerNameTextView = new TextView(DetailedActivity.this);
+                LinearLayout traielrsVerticalLinearLayout = (LinearLayout) findViewById(R.id.trailersVerticalLinearLayout);
 
+                for (final Trailer trailer : trailers) {
+                    LinearLayout trailerLinearLayout = new LinearLayout(DetailedActivity.this);
+                    trailerLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
+                    TextView trailerNameTextView = new TextView(DetailedActivity.this);
                     trailerNameTextView.setText(trailer.getName());
-                    linearLayout.addView(trailerNameTextView);
-                    trailersListLinearLayout.addView(linearLayout);
+                    trailerLinearLayout.addView(trailerNameTextView);
+                    traielrsVerticalLinearLayout.addView(trailerLinearLayout);
+                    trailerNameTextView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(trailer.getKey())));
+                        }
+                    });
                 }
             }
 

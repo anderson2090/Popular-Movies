@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.example.usama.popularmovies.contracts.MovieDbApi;
 import com.example.usama.popularmovies.model.Movie;
+import com.example.usama.popularmovies.model.Trailer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,5 +43,26 @@ public class JsonHelper {
         }
 
         return movies;
+    }
+
+    public static ArrayList<Trailer> json2Trailers(String json) {
+        ArrayList<Trailer> trailers = new ArrayList<>();
+
+        try {
+            JSONObject rootTrailerJsonObject = new JSONObject(json);
+            JSONArray resultsArray = rootTrailerJsonObject.getJSONArray("results");
+            for (int i = 0; i <= resultsArray.length(); i++) {
+                JSONObject trailerObject = resultsArray.getJSONObject(i);
+                String trailerName = trailerObject.getString("name");
+                String trailerKey = "https://www.youtube.com/watch?v="+trailerObject.getString("key");
+                Trailer trailer = new Trailer(trailerName, trailerKey);
+                trailers.add(trailer);
+
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return trailers;
     }
 }

@@ -39,12 +39,12 @@
             android:orientation="horizontal">
 
             <RelativeLayout
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
                 android:id="@+id/posterRelativeLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp">
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp">
 
                 <ImageView
                     android:id="@+id/detailedMoviePosterImageView"
@@ -53,43 +53,44 @@
                     app:srcCompat="@mipmap/ic_launcher" />
 
             </RelativeLayout>
-                <LinearLayout
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:id="@+id/dateAndOtherStuffLinearLayout"
+
+            <LinearLayout
+                android:id="@+id/dateAndOtherStuffLinearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <TextView
+
+                    android:id="@+id/detailedReleaseDateTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    tools:text="Release Date" />
 
-                    android:orientation="vertical"
-                    android:layout_marginStart="10dp">
-
-                    <TextView
-
-                        android:id="@+id/detailedReleaseDateTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        tools:text="Release Date" />
-
-                    <TextView
-                        android:id="@+id/detailedVoteAverageTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="14dp"
-                        android:textSize="18sp"
-                        tools:text="Vote Average" />
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/detailedVoteAverageTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:textSize="18sp"
+                    tools:text="Vote Average" />
+            </LinearLayout>
 
 
         </LinearLayout>
 
         <RelativeLayout
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
             android:id="@+id/overViewRelativeLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/posterAndDateLinearLayout"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:layout_marginStart="5dp">
 
             <TextView
@@ -100,6 +101,21 @@
 
                 android:textSize="18sp"
                 tools:text="overview" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/trailersRelativeLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/overViewRelativeLayout">
+
+            <TextView
+                android:id="@+id/trailersTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/trailer_text_view" />
+
+
         </RelativeLayout>
 
 

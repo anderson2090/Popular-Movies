@@ -5,6 +5,7 @@ import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -89,8 +90,26 @@ public class DetailedActivity extends AppCompatActivity {
                     @Override
                     public void onLoadFinished(Loader<String> loader, String s) {
 
+                        LinearLayout reviewsLinearLayout = (LinearLayout) findViewById(R.id.reviewsLinearLayout);
                         ArrayList<Review> reviews = JsonHelper.json2Reviews(s);
+                        for (Review review : reviews) {
+                            LinearLayout reviewLinearLayout = new LinearLayout(DetailedActivity.this);
+                            reviewLinearLayout.setOrientation(LinearLayout.VERTICAL);
+                            TextView reviewContentTextView = new TextView(DetailedActivity.this);
+                            reviewContentTextView.setText(review.getContent());
 
+                            TextView reviewAuthorTextView = new TextView(DetailedActivity.this);
+
+
+                            reviewAuthorTextView.setText(review.getAuthor());
+                            reviewAuthorTextView.setTypeface(null, Typeface.BOLD);
+
+                            reviewLinearLayout.addView(reviewContentTextView);
+                            reviewLinearLayout.addView(reviewAuthorTextView);
+
+                            reviewsLinearLayout.addView(reviewLinearLayout);
+
+                        }
 
                     }
 

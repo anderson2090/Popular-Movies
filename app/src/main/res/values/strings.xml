@@ -21,4 +21,7 @@
     <!--Trailer Relative Layout-->
     <string name="trailer_text_view">Trailers:</string>
 
+    <!--Reviews-->
+    <string name="reviews">Reviews:</string>
+
 </resources>

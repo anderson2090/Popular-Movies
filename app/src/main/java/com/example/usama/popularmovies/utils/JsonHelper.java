@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.example.usama.popularmovies.contracts.MovieDbApi;
 import com.example.usama.popularmovies.model.Movie;
+import com.example.usama.popularmovies.model.Review;
 import com.example.usama.popularmovies.model.Trailer;
 
 import org.json.JSONArray;
@@ -54,7 +55,7 @@ public class JsonHelper {
             for (int i = 0; i <= resultsArray.length(); i++) {
                 JSONObject trailerObject = resultsArray.getJSONObject(i);
                 String trailerName = trailerObject.getString("name");
-                String trailerKey = "https://www.youtube.com/watch?v="+trailerObject.getString("key");
+                String trailerKey = "https://www.youtube.com/watch?v=" + trailerObject.getString("key");
                 Trailer trailer = new Trailer(trailerName, trailerKey);
                 trailers.add(trailer);
 
@@ -65,4 +66,26 @@ public class JsonHelper {
         }
         return trailers;
     }
+
+    public static ArrayList<Review> json2Reviews(String json) {
+        ArrayList<Review> reviews = new ArrayList<>();
+        try {
+            JSONObject reviewsRootJsonObject = new JSONObject(json);
+            JSONArray reviewsJsonArray = reviewsRootJsonObject.getJSONArray("results");
+            for (int i = 0; i <= reviewsJsonArray.length(); i++) {
+                JSONObject reviewJsonObject = reviewsJsonArray.getJSONObject(i);
+                String reviewAuthor = reviewJsonObject.getString("author");
+                String content = reviewJsonObject.getString("content");
+                Review review = new Review(reviewAuthor, content);
+                reviews.add(review);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return reviews;
+    }
+
+
 }

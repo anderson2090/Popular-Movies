@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.usama.popularmovies.contracts.MovieDbApi;
 import com.example.usama.popularmovies.model.Movie;
+import com.example.usama.popularmovies.model.Review;
 import com.example.usama.popularmovies.model.Trailer;
 import com.example.usama.popularmovies.utils.HttpHelper;
 import com.example.usama.popularmovies.utils.JsonHelper;
@@ -79,6 +80,25 @@ public class DetailedActivity extends AppCompatActivity {
                         }
                     });
                 }
+                getLoaderManager().initLoader(1, null, new LoaderManager.LoaderCallbacks<String>() {
+                    @Override
+                    public Loader<String> onCreateLoader(int i, Bundle bundle) {
+                        return new ReviewLoader(DetailedActivity.this);
+                    }
+
+                    @Override
+                    public void onLoadFinished(Loader<String> loader, String s) {
+
+                        ArrayList<Review> reviews = JsonHelper.json2Reviews(s);
+
+
+                    }
+
+                    @Override
+                    public void onLoaderReset(Loader<String> loader) {
+
+                    }
+                }).forceLoad();
             }
 
             @Override
@@ -86,6 +106,8 @@ public class DetailedActivity extends AppCompatActivity {
 
             }
         }).forceLoad();
+
+
     }
 
     private static class TrailerLoader extends AsyncTaskLoader<String> {
@@ -101,11 +123,30 @@ public class DetailedActivity extends AppCompatActivity {
             String url = "https://api.themoviedb.org/3/movie/" + currentMovie.getMovieId() + "/videos?api_key=690c58456569e376868b792be438e659&language=en-US";
             try {
                 trailersJsonResponse = HttpHelper.run(url);
-                Log.i("dasd", "dasd");
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
             return trailersJsonResponse;
+        }
+    }
+
+    public static class ReviewLoader extends AsyncTaskLoader<String> {
+
+        public ReviewLoader(Context context) {
+            super(context);
+        }
+
+        @Override
+        public String loadInBackground() {
+            String reviewsJsonResponse = null;
+            String url = "https://api.themoviedb.org/3/movie/" + currentMovie.getMovieId() + "/reviews?api_key=690c58456569e376868b792be438e659&language=en-US&page=1";
+            try {
+                reviewsJsonResponse = HttpHelper.run(url);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return reviewsJsonResponse;
         }
     }
 

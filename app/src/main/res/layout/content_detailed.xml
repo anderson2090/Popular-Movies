@@ -79,6 +79,17 @@
                     android:layout_marginTop="14dp"
                     android:textSize="18sp"
                     tools:text="Vote Average" />
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/markAsFavouriteTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mark_as_favourite_button"/>
+
+            <com.uniquestudio.library.CircleCheckBox
+                android:id="@+id/toggleFavouriteCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
             </LinearLayout>
 
 

@@ -18,10 +18,11 @@
     <string name="popular_movies_menu_item">Popular Movies</string>
     <string name="top_rated_movies_menu_item">Top Rated Movies</string>
 
-    <!--Trailer Relative Layout-->
+    <!--Detailed Activity-->
     <string name="trailer_text_view">Trailers:</string>
-
-    <!--Reviews-->
     <string name="reviews">Reviews:</string>
+    <string name="mark_as_favourite_button">Mark As Favourite</string>
+    <string name="toggle_button_mark">Mark as Favourite</string>
+    <string name="toggle_button_unmark">Added to favourites</string>
 
 </resources>

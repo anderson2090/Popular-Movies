@@ -8,31 +8,27 @@ import android.content.Loader;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.usama.popularmovies.contracts.MovieDbApi;
 import com.example.usama.popularmovies.model.Movie;
 import com.example.usama.popularmovies.model.Review;
 import com.example.usama.popularmovies.model.Trailer;
 import com.example.usama.popularmovies.utils.HttpHelper;
 import com.example.usama.popularmovies.utils.JsonHelper;
 import com.squareup.picasso.Picasso;
+import com.uniquestudio.library.CircleCheckBox;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class DetailedActivity extends AppCompatActivity {
     public static Movie currentMovie;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +42,7 @@ public class DetailedActivity extends AppCompatActivity {
         TextView movieOverviewTextView = (TextView) findViewById(R.id.detailedMovieOverviewTextView);
         TextView movieVoteAverageTextView = (TextView) findViewById(R.id.detailedVoteAverageTextView);
 
+
         currentMovie = getIntent().getParcelableExtra("currentMovie");
         Picasso.with(this).load(currentMovie.getMoviePosterPath()).resize(320, 300)
                 .into(moviePosterImageView);
@@ -53,7 +50,21 @@ public class DetailedActivity extends AppCompatActivity {
         movieReleaseDateTextView.setText(currentMovie.getMovieReleaseDate());
         movieOverviewTextView.setText(currentMovie.getPlotSynopsis());
         movieVoteAverageTextView.setText(currentMovie.getMovieVoteAverage() + "/10");
+        final TextView markAsFavouriteTextView  = (TextView) findViewById(R.id.markAsFavouriteTextView);
+        CircleCheckBox toggleFavouriteCheckBox = (CircleCheckBox) findViewById(R.id.toggleFavouriteCheckBox);
+        toggleFavouriteCheckBox.setListener(new CircleCheckBox.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(boolean isChecked) {
+                if(!isChecked){
+                    markAsFavouriteTextView.setText(R.string.toggle_button_mark);
+                }else {
+                    markAsFavouriteTextView.setText(R.string.toggle_button_unmark);
+                }
+            }
+        });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
 
         getLoaderManager().initLoader(0, null, new LoaderManager.LoaderCallbacks<String>() {
             @Override

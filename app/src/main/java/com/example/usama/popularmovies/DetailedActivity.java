@@ -14,12 +14,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.usama.popularmovies.model.Movie;
 import com.example.usama.popularmovies.model.Review;
 import com.example.usama.popularmovies.model.Trailer;
 import com.example.usama.popularmovies.utils.HttpHelper;
 import com.example.usama.popularmovies.utils.JsonHelper;
+import com.example.usama.popularmovies.utils.MyDBHandler;
 import com.squareup.picasso.Picasso;
 import com.uniquestudio.library.CircleCheckBox;
 
@@ -28,6 +30,7 @@ import java.util.ArrayList;
 
 public class DetailedActivity extends AppCompatActivity {
     public static Movie currentMovie;
+    MyDBHandler myDBHandler = new MyDBHandler(DetailedActivity.this, null, null, 1);
 
 
     @Override
@@ -50,20 +53,29 @@ public class DetailedActivity extends AppCompatActivity {
         movieReleaseDateTextView.setText(currentMovie.getMovieReleaseDate());
         movieOverviewTextView.setText(currentMovie.getPlotSynopsis());
         movieVoteAverageTextView.setText(currentMovie.getMovieVoteAverage() + "/10");
-        final TextView markAsFavouriteTextView  = (TextView) findViewById(R.id.markAsFavouriteTextView);
+
+
+        if (myDBHandler.checkIfRowExists(currentMovie)) {
+            Toast.makeText(getApplicationContext(), "True", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Flase", Toast.LENGTH_SHORT).show();
+        }
+
+        final TextView markAsFavouriteTextView = (TextView) findViewById(R.id.markAsFavouriteTextView);
         CircleCheckBox toggleFavouriteCheckBox = (CircleCheckBox) findViewById(R.id.toggleFavouriteCheckBox);
         toggleFavouriteCheckBox.setListener(new CircleCheckBox.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(boolean isChecked) {
-                if(!isChecked){
+                if (!isChecked) {
                     markAsFavouriteTextView.setText(R.string.toggle_button_mark);
-                }else {
+                } else {
                     markAsFavouriteTextView.setText(R.string.toggle_button_unmark);
+                    myDBHandler = new MyDBHandler(DetailedActivity.this, null, null, 1);
+                    myDBHandler.addMovie(currentMovie);
                 }
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
 
         getLoaderManager().initLoader(0, null, new LoaderManager.LoaderCallbacks<String>() {

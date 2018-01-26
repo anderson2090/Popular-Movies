@@ -21,6 +21,7 @@ import com.example.usama.popularmovies.adapters.MoviesRecyclerViewAdapter;
 import com.example.usama.popularmovies.model.Movie;
 import com.example.usama.popularmovies.utils.HttpHelper;
 import com.example.usama.popularmovies.utils.JsonHelper;
+import com.example.usama.popularmovies.utils.MyDBHandler;
 import com.pixplicity.easyprefs.library.Prefs;
 
 

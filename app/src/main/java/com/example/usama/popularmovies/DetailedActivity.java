@@ -53,24 +53,31 @@ public class DetailedActivity extends AppCompatActivity {
         movieReleaseDateTextView.setText(currentMovie.getMovieReleaseDate());
         movieOverviewTextView.setText(currentMovie.getPlotSynopsis());
         movieVoteAverageTextView.setText(currentMovie.getMovieVoteAverage() + "/10");
-
-
-        if (myDBHandler.checkIfRowExists(currentMovie)) {
-            Toast.makeText(getApplicationContext(), "True", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getApplicationContext(), "Flase", Toast.LENGTH_SHORT).show();
-        }
-
         final TextView markAsFavouriteTextView = (TextView) findViewById(R.id.markAsFavouriteTextView);
         CircleCheckBox toggleFavouriteCheckBox = (CircleCheckBox) findViewById(R.id.toggleFavouriteCheckBox);
+
+        if (myDBHandler.checkIfRowExists(currentMovie)) {
+            //Toast.makeText(getApplicationContext(), "True", Toast.LENGTH_SHORT).show();
+            toggleFavouriteCheckBox.setChecked(true);
+            markAsFavouriteTextView.setText(R.string.toggle_button_unmark);
+
+        } else {
+            //Toast.makeText(getApplicationContext(), "Flase", Toast.LENGTH_SHORT).show();
+            toggleFavouriteCheckBox.setChecked(false);
+            markAsFavouriteTextView.setText(R.string.toggle_button_mark);
+        }
+
+
         toggleFavouriteCheckBox.setListener(new CircleCheckBox.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(boolean isChecked) {
                 if (!isChecked) {
                     markAsFavouriteTextView.setText(R.string.toggle_button_mark);
+                    myDBHandler.deleteMovie(currentMovie);
+
                 } else {
                     markAsFavouriteTextView.setText(R.string.toggle_button_unmark);
-                    myDBHandler = new MyDBHandler(DetailedActivity.this, null, null, 1);
+
                     myDBHandler.addMovie(currentMovie);
                 }
             }

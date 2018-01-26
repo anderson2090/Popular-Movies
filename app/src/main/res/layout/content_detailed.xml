@@ -87,6 +87,7 @@
                     android:text="@string/mark_as_favourite_button"/>
 
             <com.uniquestudio.library.CircleCheckBox
+                app:animation_duration="0"
                 android:id="@+id/toggleFavouriteCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

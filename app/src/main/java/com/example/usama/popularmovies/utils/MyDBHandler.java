@@ -35,6 +35,13 @@ public class MyDBHandler extends SQLiteOpenHelper {
         database.close();
     }
 
+    public void deleteMovie(Movie movie) {
+        String query = "DELETE FROM movies WHERE movieid = " + movie.getMovieId();
+        SQLiteDatabase database = this.getWritableDatabase();
+        database.execSQL(query);
+        database.close();
+    }
+
 
     public boolean checkIfRowExists(Movie movie) {
 

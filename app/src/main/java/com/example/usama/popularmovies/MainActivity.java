@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 .setUseDefaultSharedPreference(true)
                 .build();
 
-        sortBy= Prefs.getString("sortBy", "Popular Movies");
+        sortBy = Prefs.getString("sortBy", "Popular Movies");
 
 
         getLoaderManager().initLoader(0, null, this).forceLoad();
@@ -141,6 +141,20 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
                 }
                 getLoaderManager().initLoader(0, null, this).forceLoad();
+                return true;
+            case R.id.favourite_movies_item:
+                if (item.isChecked()) {
+                    item.setChecked(false);
+
+                } else {
+                    item.setChecked(true);
+
+                    sortBy = "Favourite Movies";
+                    Prefs.putString("sortBy", sortBy);
+
+                }
+                // getLoaderManager().initLoader(0, null, this).forceLoad();
+                Toast.makeText(getApplicationContext(), "Display favourite movies", Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

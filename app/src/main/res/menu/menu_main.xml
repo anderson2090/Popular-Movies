@@ -10,5 +10,8 @@
         <item
             android:id="@+id/top_rated_menu_item"
             android:title="@string/top_rated_movies_menu_item" />
+        <item
+            android:id="@+id/favourite_movies_item"
+            android:title="@string/favourite_movies_menu_item" />
     </group>
 </menu>

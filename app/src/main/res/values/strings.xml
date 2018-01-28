@@ -17,6 +17,7 @@
     <!--Menu-->
     <string name="popular_movies_menu_item">Popular Movies</string>
     <string name="top_rated_movies_menu_item">Top Rated Movies</string>
+    <string name="favourite_movies_menu_item">Favourite Movies</string>
 
     <!--Detailed Activity-->
     <string name="trailer_text_view">Trailers:</string>

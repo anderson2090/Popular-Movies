@@ -33,7 +33,7 @@ import static com.example.usama.popularmovies.contracts.MovieDbApi.MovieAPiConst
 import static com.example.usama.popularmovies.contracts.MovieDbApi.MovieAPiConstants.page;
 
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String> {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Object> {
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
@@ -162,31 +162,31 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     @Override
-    public Loader<String> onCreateLoader(int i, Bundle bundle) {
+    public Loader<Object> onCreateLoader(int i, Bundle bundle) {
         return new MovieTaskLoader(this);
     }
 
     @Override
-    public void onLoadFinished(Loader<String> loader, String s) {
+    public void onLoadFinished(Loader<Object> loader, Object s) {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         layoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(layoutManager);
         moviesAdapter = new MoviesRecyclerViewAdapter(this);
 
         recyclerView.setAdapter(moviesAdapter);
-        movies = JsonHelper.json2Movies(s);
+        movies = JsonHelper.json2Movies((String) s);
         moviesAdapter.setMovies(movies);
 
 
     }
 
     @Override
-    public void onLoaderReset(Loader<String> loader) {
+    public void onLoaderReset(Loader<Object> loader) {
 
     }
 
 
-    private static class MovieTaskLoader extends AsyncTaskLoader<String> {
+    private static class MovieTaskLoader extends AsyncTaskLoader<Object> {
 
 
         public MovieTaskLoader(Context context) {

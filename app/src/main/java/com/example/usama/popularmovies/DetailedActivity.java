@@ -3,13 +3,17 @@ package com.example.usama.popularmovies;
 import android.app.LoaderManager;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.Loader;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,8 +27,11 @@ import com.example.usama.popularmovies.utils.HttpHelper;
 import com.example.usama.popularmovies.utils.JsonHelper;
 import com.example.usama.popularmovies.utils.MyDBHandler;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import com.uniquestudio.library.CircleCheckBox;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -75,10 +82,18 @@ public class DetailedActivity extends AppCompatActivity {
                     markAsFavouriteTextView.setText(R.string.toggle_button_mark);
                     myDBHandler.deleteMovie(currentMovie);
 
+                    ContextWrapper cw = new ContextWrapper(getApplicationContext());
+                    File directory = cw.getDir("PopularMoviesFavImagesDir", Context.MODE_PRIVATE);
+                    File myImageFile = new File(directory,currentMovie.getMovieId()+".jpeg");
+                    if (myImageFile.delete()) Log.i("Delete message","image on the disk deleted successfully!");
+
                 } else {
                     markAsFavouriteTextView.setText(R.string.toggle_button_unmark);
 
                     myDBHandler.addMovie(currentMovie);
+
+                    Picasso.with(getApplicationContext()).load(currentMovie.getMoviePosterPath())
+                            .into(picassoImageTarget(getApplicationContext(), "PopularMoviesFavImagesDir", currentMovie.getMovieId() + ".jpeg"));
                 }
             }
         });
@@ -197,6 +212,49 @@ public class DetailedActivity extends AppCompatActivity {
             }
             return reviewsJsonResponse;
         }
+    }
+
+    private Target picassoImageTarget(Context context, final String imageDir, final String imageName) {
+
+        ContextWrapper cw = new ContextWrapper(context);
+        final File directory = cw.getDir(imageDir, Context.MODE_PRIVATE);
+        return new Target() {
+            @Override
+            public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        final File myImageFile = new File(directory, imageName);
+                        FileOutputStream fos = null;
+                        try {
+                            fos = new FileOutputStream(myImageFile);
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } finally {
+                            try {
+
+                                fos.close();
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                    }
+                }).start();
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+                if (placeHolderDrawable != null) {
+                }
+            }
+        };
     }
 
 }

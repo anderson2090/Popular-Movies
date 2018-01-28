@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,13 +34,14 @@ import static com.example.usama.popularmovies.contracts.MovieDbApi.MovieAPiConst
 import static com.example.usama.popularmovies.contracts.MovieDbApi.MovieAPiConstants.page;
 
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Object> {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String> {
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     MoviesRecyclerViewAdapter moviesAdapter;
     public static String sortBy = null;
     ArrayList<Movie> movies;
+
 
 
     @Override
@@ -153,8 +155,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     Prefs.putString("sortBy", sortBy);
 
                 }
-                // getLoaderManager().initLoader(0, null, this).forceLoad();
-                Toast.makeText(getApplicationContext(), "Display favourite movies", Toast.LENGTH_SHORT).show();
+                 getLoaderManager().initLoader(0, null, this).forceLoad();
+                //Toast.makeText(getApplicationContext(), "Display favourite movies", Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -162,31 +164,37 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     @Override
-    public Loader<Object> onCreateLoader(int i, Bundle bundle) {
+    public Loader<String> onCreateLoader(int i, Bundle bundle) {
         return new MovieTaskLoader(this);
     }
 
     @Override
-    public void onLoadFinished(Loader<Object> loader, Object s) {
+    public void onLoadFinished(Loader<String> loader, String s) {
+        MyDBHandler myDBHandler = new MyDBHandler(MainActivity.this, null, null, 1);
+        ArrayList<Movie> favouriteMovies = new ArrayList<>();
+        if(s.equalsIgnoreCase("Favourite Movies")){
+            favouriteMovies = myDBHandler.getFavouriteMovies();
+
+        }
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         layoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(layoutManager);
         moviesAdapter = new MoviesRecyclerViewAdapter(this);
 
         recyclerView.setAdapter(moviesAdapter);
-        movies = JsonHelper.json2Movies((String) s);
+        movies = JsonHelper.json2Movies(s);
         moviesAdapter.setMovies(movies);
 
 
     }
 
     @Override
-    public void onLoaderReset(Loader<Object> loader) {
+    public void onLoaderReset(Loader<String> loader) {
 
     }
 
 
-    private static class MovieTaskLoader extends AsyncTaskLoader<Object> {
+    private static class MovieTaskLoader extends AsyncTaskLoader<String> {
 
 
         public MovieTaskLoader(Context context) {
@@ -200,8 +208,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             try {
                 if (sortBy.equalsIgnoreCase("Popular Movies")) {
                     httpResponse = HttpHelper.run(POPULAR_MOVIES + page);
-                } else {
+                } else if(sortBy.equalsIgnoreCase("Top Rated Movies")){
                     httpResponse = HttpHelper.run(TOP_RATED_MOVIES + page);
+                }else if (sortBy.equalsIgnoreCase("Favourite Movies")){
+                    httpResponse = "Favourite Movies";
                 }
             } catch (IOException e) {
                 e.printStackTrace();

@@ -8,7 +8,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.usama.popularmovies.model.Movie;
 
+import java.util.ArrayList;
+
 public class MyDBHandler extends SQLiteOpenHelper {
+
 
     public MyDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, "movies.db", factory, 1);
@@ -60,5 +63,30 @@ public class MyDBHandler extends SQLiteOpenHelper {
         cursor.close();
         return true;
 
+    }
+
+
+    public ArrayList<Movie> getFavouriteMovies() {
+        ArrayList<Movie> movies = new ArrayList<>();
+        SQLiteDatabase database = this.getReadableDatabase();
+        Cursor cursor = database.rawQuery("select * from movies", null);
+        if (cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+                String movieId = cursor.getString(cursor.getColumnIndex("movieid"));
+                String movieName = cursor.getString(cursor.getColumnIndex("moviename"));
+                String userRating = cursor.getString(cursor.getColumnIndex("userrating"));
+                String releaseDate = cursor.getString(cursor.getColumnIndex("releasedate"));
+                String overview = cursor.getString(cursor.getColumnIndex("overview"));
+                String posterPath = cursor.getString(cursor.getColumnIndex("localposterpath"));
+
+                Movie movie = new Movie(movieId, movieName, releaseDate, posterPath, userRating, overview);
+
+                movies.add(movie);
+                cursor.moveToNext();
+            }
+            cursor.close();
+            database.close();
+        }
+        return movies;
     }
 }

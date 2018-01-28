@@ -16,7 +16,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String CREATE_PRODUCTS_TABLE = "CREATE TABLE movies (_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT , movieid TEXT NOT NULL, moviename TEXT NOT NULL, userrating TEXT NOT NULL, releasedate TEXT NOT NULL, overview TEXT NOT NULL)";
+        String CREATE_PRODUCTS_TABLE = "CREATE TABLE movies (_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT , movieid TEXT NOT NULL, moviename TEXT NOT NULL, userrating TEXT NOT NULL, releasedate TEXT NOT NULL, overview TEXT NOT NULL, localposterpath TEXT NOT NULL)";
         sqLiteDatabase.execSQL(CREATE_PRODUCTS_TABLE);
     }
 
@@ -33,6 +33,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         values.put("userrating", movie.getMovieVoteAverage());
         values.put("releasedate", movie.getMovieReleaseDate());
         values.put("overview", movie.getPlotSynopsis());
+        values.put("localposterpath", movie.getMoviePosterPath());
 
         SQLiteDatabase database = this.getWritableDatabase();
         database.insert("movies", null, values);

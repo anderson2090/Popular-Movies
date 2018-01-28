@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     ArrayList<Movie> movies;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     Prefs.putString("sortBy", sortBy);
 
                 }
-                 getLoaderManager().initLoader(0, null, this).forceLoad();
+                getLoaderManager().initLoader(0, null, this).forceLoad();
                 //Toast.makeText(getApplicationContext(), "Display favourite movies", Toast.LENGTH_SHORT).show();
                 return true;
             default:
@@ -171,10 +170,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoadFinished(Loader<String> loader, String s) {
         MyDBHandler myDBHandler = new MyDBHandler(MainActivity.this, null, null, 1);
-        ArrayList<Movie> favouriteMovies = new ArrayList<>();
-        if(s.equalsIgnoreCase("Favourite Movies")){
-            favouriteMovies = myDBHandler.getFavouriteMovies();
 
+        if (s.equalsIgnoreCase("Favourite Movies")) {
+            if (myDBHandler.getFavouriteMovies().isEmpty()) {
+                Toast.makeText(getApplicationContext(), "Favourite Movies list is empty", Toast.LENGTH_SHORT).show();
+            } else {
+                movies = myDBHandler.getFavouriteMovies();
+            }
+
+        } else {
+            movies = JsonHelper.json2Movies(s);
         }
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         layoutManager = new GridLayoutManager(this, 2);
@@ -182,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         moviesAdapter = new MoviesRecyclerViewAdapter(this);
 
         recyclerView.setAdapter(moviesAdapter);
-        movies = JsonHelper.json2Movies(s);
+
         moviesAdapter.setMovies(movies);
 
 
@@ -208,9 +213,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             try {
                 if (sortBy.equalsIgnoreCase("Popular Movies")) {
                     httpResponse = HttpHelper.run(POPULAR_MOVIES + page);
-                } else if(sortBy.equalsIgnoreCase("Top Rated Movies")){
+                } else if (sortBy.equalsIgnoreCase("Top Rated Movies")) {
                     httpResponse = HttpHelper.run(TOP_RATED_MOVIES + page);
-                }else if (sortBy.equalsIgnoreCase("Favourite Movies")){
+                } else if (sortBy.equalsIgnoreCase("Favourite Movies")) {
                     httpResponse = "Favourite Movies";
                 }
             } catch (IOException e) {

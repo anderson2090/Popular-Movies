@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.usama.popularmovies.adapters.MoviesRecyclerViewAdapter;
 import com.example.usama.popularmovies.model.Movie;
+import com.example.usama.popularmovies.utils.DBAdapter;
 import com.example.usama.popularmovies.utils.HttpHelper;
 import com.example.usama.popularmovies.utils.JsonHelper;
 import com.example.usama.popularmovies.utils.MyDBHandler;
@@ -42,12 +43,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public static String sortBy = null;
     ArrayList<Movie> movies;
 
+    private DBAdapter dbAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+        dbAdapter = DBAdapter.getDbAdapterInstance(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -169,13 +173,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<String> loader, String s) {
-        MyDBHandler myDBHandler = new MyDBHandler(MainActivity.this, null, null, 1);
+        //MyDBHandler myDBHandler = new MyDBHandler(MainActivity.this, null, null, 1);
 
         if (s.equalsIgnoreCase("Favourite Movies")) {
-            if (myDBHandler.getFavouriteMovies().isEmpty()) {
+            if (dbAdapter.getFavouriteMovies().isEmpty()) {
                 Toast.makeText(getApplicationContext(), "Favourite Movies list is empty", Toast.LENGTH_SHORT).show();
             } else {
-                movies = myDBHandler.getFavouriteMovies();
+                movies = dbAdapter.getFavouriteMovies();
             }
 
         } else {

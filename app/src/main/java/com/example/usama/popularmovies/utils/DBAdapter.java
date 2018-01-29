@@ -27,7 +27,7 @@ public class DBAdapter {
     private static final String COLUMN_LOCAL_POSTER_PATH = "local_poster_path";
 
     private static String CREATE_TABLE_QUERY =
-            "CREATE TABLE" + TABLE_MOVIES + "(" + COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "
+            "CREATE TABLE " + TABLE_MOVIES + "(" + COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "
                     + COLUMN_MOVIE_ID + " TEXT NOT NULL, "
                     + COLUMN_MOVIE_NAME + " TEXT NOT NULL, "
                     + COLUMN_USER_RATING + " TEXT NOT NULL, "
@@ -63,7 +63,7 @@ public class DBAdapter {
 
         //SQLiteDatabase database = this.getWritableDatabase();
         sqLiteDatabase.insert(TABLE_MOVIES, null, values);
-        sqLiteDatabase.close();
+        //sqLiteDatabase.close();
     }
 
     public void deleteMovie(Movie movie) {
@@ -72,7 +72,7 @@ public class DBAdapter {
         sqLiteDatabase.delete(TABLE_MOVIES,
                 COLUMN_MOVIE_ID + " = " + movie.getMovieId(),
                 null);
-        sqLiteDatabase.close();
+        //sqLiteDatabase.close();
     }
 
     public boolean checkIfRowExists(Movie movie) {
@@ -82,11 +82,11 @@ public class DBAdapter {
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
         if (cursor.getCount() <= 0) {
             cursor.close();
-            sqLiteDatabase.close();
+           // sqLiteDatabase.close();
             return false;
         }
         cursor.close();
-        sqLiteDatabase.close();
+        //sqLiteDatabase.close();
         return true;
 
     }
@@ -110,7 +110,7 @@ public class DBAdapter {
                 cursor.moveToNext();
             }
             cursor.close();
-            sqLiteDatabase.close();
+           // sqLiteDatabase.close();
         }
         return movies;
     }

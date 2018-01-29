@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.example.usama.popularmovies.model.Movie;
 import com.example.usama.popularmovies.model.Review;
 import com.example.usama.popularmovies.model.Trailer;
+import com.example.usama.popularmovies.utils.DBAdapter;
 import com.example.usama.popularmovies.utils.HttpHelper;
 import com.example.usama.popularmovies.utils.JsonHelper;
 import com.example.usama.popularmovies.utils.MyDBHandler;
@@ -37,13 +38,14 @@ import java.util.ArrayList;
 
 public class DetailedActivity extends AppCompatActivity {
     public static Movie currentMovie;
-    MyDBHandler myDBHandler = new MyDBHandler(DetailedActivity.this, null, null, 1);
+    private DBAdapter dbAdapter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed);
+        dbAdapter = DBAdapter.getDbAdapterInstance(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ImageView moviePosterImageView = (ImageView) findViewById(R.id.detailedMoviePosterImageView);
@@ -63,7 +65,7 @@ public class DetailedActivity extends AppCompatActivity {
         final TextView markAsFavouriteTextView = (TextView) findViewById(R.id.markAsFavouriteTextView);
         CircleCheckBox toggleFavouriteCheckBox = (CircleCheckBox) findViewById(R.id.toggleFavouriteCheckBox);
 
-        if (myDBHandler.checkIfRowExists(currentMovie)) {
+        if (dbAdapter.checkIfRowExists(currentMovie)) {
             //Toast.makeText(getApplicationContext(), "True", Toast.LENGTH_SHORT).show();
             toggleFavouriteCheckBox.setChecked(true);
             markAsFavouriteTextView.setText(R.string.toggle_button_unmark);
@@ -80,7 +82,7 @@ public class DetailedActivity extends AppCompatActivity {
             public void onCheckedChanged(boolean isChecked) {
                 if (!isChecked) {
                     markAsFavouriteTextView.setText(R.string.toggle_button_mark);
-                    myDBHandler.deleteMovie(currentMovie);
+                    dbAdapter.deleteMovie(currentMovie);
 
                     ContextWrapper cw = new ContextWrapper(getApplicationContext());
                     File directory = cw.getDir("PopularMoviesFavImagesDir", Context.MODE_PRIVATE);
@@ -90,7 +92,7 @@ public class DetailedActivity extends AppCompatActivity {
                 } else {
                     markAsFavouriteTextView.setText(R.string.toggle_button_unmark);
 
-                    myDBHandler.addMovie(currentMovie);
+                   dbAdapter.addMovie(currentMovie);
 
                     Picasso.with(getApplicationContext()).load(currentMovie.getMoviePosterPath())
                             .into(picassoImageTarget(getApplicationContext(), "PopularMoviesFavImagesDir", currentMovie.getMovieId() + ".jpeg"));

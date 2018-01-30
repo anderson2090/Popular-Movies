@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.Loader;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.usama.popularmovies.adapters.MoviesRecyclerViewAdapter;
+import com.example.usama.popularmovies.contentprovider.FavouriteMoviesProvider;
 import com.example.usama.popularmovies.model.Movie;
 import com.example.usama.popularmovies.utils.DBAdapter;
 import com.example.usama.popularmovies.utils.HttpHelper;
@@ -45,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     ArrayList<Movie> movies;
 
     private DBAdapter dbAdapter;
-
+    private ContentResolver contentResolver;
 
 
     @Override
@@ -57,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        contentResolver = getContentResolver();
 
 
         new Prefs.Builder()
@@ -183,7 +186,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             if (dbAdapter.getFavouriteMovies().isEmpty()) {
                 Toast.makeText(getApplicationContext(), "Favourite Movies list is empty", Toast.LENGTH_SHORT).show();
             } else {
-                movies = dbAdapter.getFavouriteMovies();
+                //movies = dbAdapter.getFavouriteMovies();
+                Cursor cursor = contentResolver.query(FavouriteMoviesProvider.CONTENT_URI,
+                        null, null, null, null, null);
+                movies = cursor2movies(cursor);
             }
 
         } else {
@@ -199,6 +205,28 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         moviesAdapter.setMovies(movies);
 
 
+    }
+
+    private ArrayList<Movie> cursor2movies(Cursor cursor) {
+        ArrayList<Movie> movies = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+                String movieId = cursor.getString(cursor.getColumnIndex(DBAdapter.COLUMN_MOVIE_ID));
+                String movieName = cursor.getString(cursor.getColumnIndex(DBAdapter.COLUMN_MOVIE_NAME));
+                String userRating = cursor.getString(cursor.getColumnIndex(DBAdapter.COLUMN_USER_RATING));
+                String releaseDate = cursor.getString(cursor.getColumnIndex(DBAdapter.COLUMN_RELEASE_DATE));
+                String overview = cursor.getString(cursor.getColumnIndex(DBAdapter.COLUMN_OVERVIEW));
+                String posterPath = cursor.getString(cursor.getColumnIndex(DBAdapter.COLUMN_LOCAL_POSTER_PATH));
+
+                Movie movie = new Movie(movieId, movieName, releaseDate, posterPath, userRating, overview);
+
+                movies.add(movie);
+                cursor.moveToNext();
+            }
+            cursor.close();
+            // sqLiteDatabase.close();
+        }
+        return movies;
     }
 
     @Override

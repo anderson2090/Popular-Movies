@@ -82,7 +82,7 @@ public class DBAdapter {
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
         if (cursor.getCount() <= 0) {
             cursor.close();
-           // sqLiteDatabase.close();
+            // sqLiteDatabase.close();
             return false;
         }
         cursor.close();
@@ -110,9 +110,27 @@ public class DBAdapter {
                 cursor.moveToNext();
             }
             cursor.close();
-           // sqLiteDatabase.close();
+            // sqLiteDatabase.close();
         }
         return movies;
+    }
+
+    // Content Provider methods
+    public long insert(ContentValues contentValues) {
+        return sqLiteDatabase.insert(TABLE_MOVIES, null, contentValues);
+    }
+
+    public boolean delete(String movieId) {
+        return sqLiteDatabase.delete(TABLE_MOVIES,
+                COLUMN_MOVIE_ID + " = " + movieId, null) > 0;
+    }
+
+    public Cursor getCursorsForAllMovies() {
+        return sqLiteDatabase.query(TABLE_MOVIES, new String[]{COLUMN_MOVIE_ID, COLUMN_LOCAL_POSTER_PATH,
+                        COLUMN_RELEASE_DATE, COLUMN_USER_RATING,
+                        COLUMN_OVERVIEW, COLUMN_MOVIE_NAME},
+                null, null, null,
+                null, null, null);
     }
 
 

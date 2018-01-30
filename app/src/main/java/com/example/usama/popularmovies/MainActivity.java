@@ -40,6 +40,8 @@ import static com.example.usama.popularmovies.contracts.MovieDbApi.MovieAPiConst
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String> {
 
+   
+
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     MoviesRecyclerViewAdapter moviesAdapter;

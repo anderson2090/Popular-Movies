@@ -25,5 +25,7 @@
     <string name="mark_as_favourite_button">Mark As Favourite</string>
     <string name="toggle_button_mark">Mark as Favourite</string>
     <string name="toggle_button_unmark">Added to favourites</string>
+    <string name="no_trailers">There\'re no trailers for this movie</string>
+    <string name="no_reviews">There\'re no reviews for this movie</string>
 
 </resources>

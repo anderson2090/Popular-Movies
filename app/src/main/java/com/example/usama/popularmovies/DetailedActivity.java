@@ -135,7 +135,7 @@ public class DetailedActivity extends AppCompatActivity {
                 LinearLayout traielrsVerticalLinearLayout = (LinearLayout) findViewById(R.id.trailersVerticalLinearLayout);
                 if (trailers.isEmpty()) {
                     TextView trailersTextView = (TextView) findViewById(R.id.trailersTextView);
-                    trailersTextView.setText("There're no trailers for this movie");
+                    trailersTextView.setText(R.string.no_trailers);
                 } else {
                     for (final Trailer trailer : trailers) {
                         LinearLayout trailerLinearLayout = new LinearLayout(DetailedActivity.this);
@@ -183,7 +183,7 @@ public class DetailedActivity extends AppCompatActivity {
                         ArrayList<Review> reviews = JsonHelper.json2Reviews(s);
                         if (reviews.isEmpty()) {
                             TextView reviewsTextView = (TextView) findViewById(R.id.reviewsTextView);
-                            reviewsTextView.setText("There're no reviews for this movie");
+                            reviewsTextView.setText(R.string.no_reviews);
                         } else {
                             for (Review review : reviews) {
                                 LinearLayout reviewLinearLayout = new LinearLayout(DetailedActivity.this);

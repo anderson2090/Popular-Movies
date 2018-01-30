@@ -94,7 +94,7 @@ public class FavouriteMoviesProvider extends ContentProvider {
 
         Uri returnUri = null;
         switch (URI_MATCHER.match(uri)) {
-            case MOVIES_ID:
+            case MOVIES:
                 returnUri = insertMovie(uri, values);
                 break;
             default:

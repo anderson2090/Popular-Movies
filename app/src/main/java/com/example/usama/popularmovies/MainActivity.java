@@ -2,6 +2,7 @@ package com.example.usama.popularmovies;
 
 import android.app.LoaderManager;
 import android.content.AsyncTaskLoader;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private DBAdapter dbAdapter;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         dbAdapter = DBAdapter.getDbAdapterInstance(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
 
         new Prefs.Builder()
                 .setContext(this)

@@ -2,6 +2,8 @@ package com.example.usama.popularmovies;
 
 import android.app.LoaderManager;
 import android.content.AsyncTaskLoader;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -20,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.usama.popularmovies.contentprovider.FavouriteMoviesProvider;
 import com.example.usama.popularmovies.model.Movie;
 import com.example.usama.popularmovies.model.Review;
 import com.example.usama.popularmovies.model.Trailer;
@@ -40,6 +43,8 @@ public class DetailedActivity extends AppCompatActivity {
     public static Movie currentMovie;
     private DBAdapter dbAdapter;
 
+    private ContentResolver contentResolver;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +53,7 @@ public class DetailedActivity extends AppCompatActivity {
         dbAdapter = DBAdapter.getDbAdapterInstance(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        contentResolver = getContentResolver();
         ImageView moviePosterImageView = (ImageView) findViewById(R.id.detailedMoviePosterImageView);
         TextView movieTitleTextView = (TextView) findViewById(R.id.detailedMovieTitleTextView);
         TextView movieReleaseDateTextView = (TextView) findViewById(R.id.detailedReleaseDateTextView);
@@ -86,13 +92,24 @@ public class DetailedActivity extends AppCompatActivity {
 
                     ContextWrapper cw = new ContextWrapper(getApplicationContext());
                     File directory = cw.getDir("PopularMoviesFavImagesDir", Context.MODE_PRIVATE);
-                    File myImageFile = new File(directory,currentMovie.getMovieId()+".jpeg");
-                    if (myImageFile.delete()) Log.i("Delete message","image on the disk deleted successfully!");
+                    File myImageFile = new File(directory, currentMovie.getMovieId() + ".jpeg");
+                    if (myImageFile.delete())
+                        Log.i("Delete message", "image on the disk deleted successfully!");
 
                 } else {
                     markAsFavouriteTextView.setText(R.string.toggle_button_unmark);
 
-                   dbAdapter.addMovie(currentMovie);
+                    //dbAdapter.addMovie(currentMovie);
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(DBAdapter.COLUMN_MOVIE_ID, currentMovie.getMovieId());
+                    contentValues.put(DBAdapter.COLUMN_LOCAL_POSTER_PATH, currentMovie.getMoviePosterPath());
+                    contentValues.put(DBAdapter.COLUMN_OVERVIEW, currentMovie.getPlotSynopsis());
+                    contentValues.put(DBAdapter.COLUMN_RELEASE_DATE, currentMovie.getMovieReleaseDate());
+                    contentValues.put(DBAdapter.COLUMN_USER_RATING, currentMovie.getMovieVoteAverage());
+                    contentValues.put(DBAdapter.COLUMN_MOVIE_NAME, currentMovie.getMovieTitle());
+
+                    contentResolver.insert(FavouriteMoviesProvider.CONTENT_URI, contentValues);
+
 
                     Picasso.with(getApplicationContext()).load(currentMovie.getMoviePosterPath())
                             .into(picassoImageTarget(getApplicationContext(), "PopularMoviesFavImagesDir", currentMovie.getMovieId() + ".jpeg"));

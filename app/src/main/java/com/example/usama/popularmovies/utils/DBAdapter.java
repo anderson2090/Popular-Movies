@@ -13,18 +13,18 @@ import java.util.ArrayList;
 
 public class DBAdapter {
 
-    private static final String DB_NAME = "favouritemovies.db";
-    private static final int DB_VERSION = 1;
+    public static final String DB_NAME = "favouritemovies.db";
+    public static final int DB_VERSION = 1;
 
-    private static final String TABLE_MOVIES = "table_movies";
+    public static final String TABLE_MOVIES = "table_movies";
 
-    private static final String COLUMN_ID = "_id";
-    private static final String COLUMN_MOVIE_ID = "movie_id";
-    private static final String COLUMN_MOVIE_NAME = "movie_name";
-    private static final String COLUMN_USER_RATING = "user_rating";
-    private static final String COLUMN_RELEASE_DATE = "release_date";
-    private static final String COLUMN_OVERVIEW = "overview";
-    private static final String COLUMN_LOCAL_POSTER_PATH = "local_poster_path";
+    public static final String COLUMN_ID = "_id";
+    public static final String COLUMN_MOVIE_ID = "movie_id";
+    public static final String COLUMN_MOVIE_NAME = "movie_name";
+    public static final String COLUMN_USER_RATING = "user_rating";
+    public static final String COLUMN_RELEASE_DATE = "release_date";
+    public static final String COLUMN_OVERVIEW = "overview";
+    public static final String COLUMN_LOCAL_POSTER_PATH = "local_poster_path";
 
     private static String CREATE_TABLE_QUERY =
             "CREATE TABLE " + TABLE_MOVIES + "(" + COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "

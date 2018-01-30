@@ -79,18 +79,19 @@
                     android:layout_marginTop="14dp"
                     android:textSize="18sp"
                     tools:text="Vote Average" />
+
                 <TextView
-                    android:layout_marginTop="10dp"
                     android:id="@+id/markAsFavouriteTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/mark_as_favourite_button"/>
+                    android:layout_marginTop="10dp"
+                    android:text="@string/mark_as_favourite_button" />
 
-            <com.uniquestudio.library.CircleCheckBox
-                app:animation_duration="0"
-                android:id="@+id/toggleFavouriteCheckBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <com.uniquestudio.library.CircleCheckBox
+                    android:id="@+id/toggleFavouriteCheckBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:animation_duration="0" />
             </LinearLayout>
 
 
@@ -113,7 +114,21 @@
 
                 android:textSize="18sp"
                 tools:text="overview" />
+            <View
+                android:id="@+id/SplitLine_hor1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/detailedMovieOverviewTextView"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                android:background="#000000"
+                android:layout_marginEnd="5dp" />
+
         </RelativeLayout>
+
+
+
 
         <RelativeLayout
             android:id="@+id/trailersRelativeLayout"
@@ -122,10 +137,14 @@
             android:layout_below="@+id/overViewRelativeLayout">
 
             <TextView
+                android:layout_marginLeft="10dp"
                 android:id="@+id/trailersTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/trailer_text_view" />
+                android:text="@string/trailer_text_view"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginStart="10dp" />
 
             <LinearLayout
                 android:id="@+id/trailersVerticalLinearLayout"

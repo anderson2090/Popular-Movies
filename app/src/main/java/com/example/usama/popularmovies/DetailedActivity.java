@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -137,8 +138,19 @@ public class DetailedActivity extends AppCompatActivity {
                     trailerLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
                     TextView trailerNameTextView = new TextView(DetailedActivity.this);
                     trailerNameTextView.setText(trailer.getName());
+                    trailerNameTextView.setTextSize(18);
+                    ImageView playIconImageView = new ImageView(DetailedActivity.this);
+                    playIconImageView.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+
+
+                    trailerLinearLayout.addView(playIconImageView);
                     trailerLinearLayout.addView(trailerNameTextView);
+
+
+
                     traielrsVerticalLinearLayout.addView(trailerLinearLayout);
+
+
                     trailerNameTextView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -163,6 +175,7 @@ public class DetailedActivity extends AppCompatActivity {
                             reviewLinearLayout.setOrientation(LinearLayout.VERTICAL);
                             TextView reviewContentTextView = new TextView(DetailedActivity.this);
                             reviewContentTextView.setText(review.getContent());
+                            reviewContentTextView.setTextSize(16);
 
                             TextView reviewAuthorTextView = new TextView(DetailedActivity.this);
 

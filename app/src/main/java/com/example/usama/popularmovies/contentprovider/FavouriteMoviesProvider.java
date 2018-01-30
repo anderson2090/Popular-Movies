@@ -69,7 +69,7 @@ public class FavouriteMoviesProvider extends ContentProvider {
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         int deleteCount = -1;
         switch (URI_MATCHER.match(uri)) {
-            case MOVIES_ID:
+            case MOVIES:
                 deleteCount = deleteMovie(selection, selectionArgs);
                 break;
             default:

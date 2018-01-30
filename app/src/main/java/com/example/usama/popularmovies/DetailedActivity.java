@@ -88,7 +88,11 @@ public class DetailedActivity extends AppCompatActivity {
             public void onCheckedChanged(boolean isChecked) {
                 if (!isChecked) {
                     markAsFavouriteTextView.setText(R.string.toggle_button_mark);
-                    dbAdapter.deleteMovie(currentMovie);
+                    //dbAdapter.deleteMovie(currentMovie);
+                    String currentMovieId = currentMovie.getMovieId();
+                    contentResolver.delete(FavouriteMoviesProvider.CONTENT_URI,
+                            DBAdapter.COLUMN_MOVIE_ID + " = ?", new String[]{currentMovieId});
+
 
                     ContextWrapper cw = new ContextWrapper(getApplicationContext());
                     File directory = cw.getDir("PopularMoviesFavImagesDir", Context.MODE_PRIVATE);

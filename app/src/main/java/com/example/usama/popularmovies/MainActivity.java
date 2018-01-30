@@ -14,7 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +25,6 @@ import com.example.usama.popularmovies.model.Movie;
 import com.example.usama.popularmovies.utils.DBAdapter;
 import com.example.usama.popularmovies.utils.HttpHelper;
 import com.example.usama.popularmovies.utils.JsonHelper;
-import com.example.usama.popularmovies.utils.MyDBHandler;
 import com.pixplicity.easyprefs.library.Prefs;
 
 

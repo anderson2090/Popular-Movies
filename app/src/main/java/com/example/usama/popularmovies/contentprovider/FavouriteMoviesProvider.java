@@ -28,36 +28,6 @@ public class FavouriteMoviesProvider extends ContentProvider {
     }
 
 
-//    public static final String PATH_ADD_MOVIE = "ADD_MOVIE";
-//    public static final String PATH_DELETE_MOVIE = "DELETE_MOVIE";
-//    public static final String PATH_CHECK_MOVIE = "CHECK_MOVIE";
-//    public static final String PATH_GET_ALL_MOVIES = "GET_ALL_MOVIES";
-//
-//    public static final Uri CONTENT_URI_1 = Uri.parse("content://" + AUTHORITY + "/" + PATH_ADD_MOVIE);
-//    public static final Uri CONTENT_URI_2 = Uri.parse("content://" + AUTHORITY + "/" + PATH_DELETE_MOVIE);
-//    public static final Uri CONTENT_URI_3 = Uri.parse("content://" + AUTHORITY + "/" + PATH_CHECK_MOVIE);
-//    public static final Uri CONTENT_URI_4 = Uri.parse("content://" + AUTHORITY + "/" + PATH_GET_ALL_MOVIES);
-//
-//    public static final String CONTENT_TYPE_1 = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + PATH_ADD_MOVIE;
-//    public static final String CONTENT_TYPE_2 = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + PATH_DELETE_MOVIE;
-//    public static final String CONTENT_TYPE_3 = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + PATH_CHECK_MOVIE;
-//    public static final String CONTENT_TYPE_4 = ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + PATH_GET_ALL_MOVIES;
-//
-//    public static final int ADD_MOVIE = 1;
-//    public static final int DELETE_MOVIE = 2;
-//    public static final int CHECK_MOVIE = 3;
-//    public static final int GET_ALL_MOVIES = 4;
-
-
-//    private static final UriMatcher URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
-
-//    static {
-//        URI_MATCHER.addURI(AUTHORITY, PATH_ADD_MOVIE, ADD_MOVIE);
-//        URI_MATCHER.addURI(AUTHORITY, PATH_DELETE_MOVIE, DELETE_MOVIE);
-//        URI_MATCHER.addURI(AUTHORITY, PATH_CHECK_MOVIE, CHECK_MOVIE);
-//        URI_MATCHER.addURI(AUTHORITY, PATH_GET_ALL_MOVIES, GET_ALL_MOVIES);
-//
-//    }
 
 
     private DBAdapter dbAdapter;

@@ -18,10 +18,12 @@ public class FavouriteMoviesProvider extends ContentProvider {
     public static final int MOVIES = 1;
     public static final int MOVIES_ID = 2;
 
+
     public static final UriMatcher URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
         URI_MATCHER.addURI(AUTHORITY, TABLE_MOVIES, MOVIES);
+
         URI_MATCHER.addURI(AUTHORITY, TABLE_MOVIES + "/#", +MOVIES_ID);
     }
 
@@ -65,8 +67,19 @@ public class FavouriteMoviesProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        // Implement this to handle requests to delete one or more rows.
-        throw new UnsupportedOperationException("Not yet implemented");
+        int deleteCount = -1;
+        switch (URI_MATCHER.match(uri)) {
+            case MOVIES_ID:
+                deleteCount = deleteMovie(selection, selectionArgs);
+                break;
+            default:
+                throw new UnsupportedOperationException("delete operation not supported");
+        }
+        return deleteCount;
+    }
+
+    private int deleteMovie(String selection, String[] selectionArgs) {
+        return dbAdapter.delete(selection, selectionArgs);
     }
 
     @Override
@@ -78,8 +91,23 @@ public class FavouriteMoviesProvider extends ContentProvider {
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        // TODO: Implement this to handle requests to insert a new row.
-        throw new UnsupportedOperationException("Not yet implemented");
+
+        Uri returnUri = null;
+        switch (URI_MATCHER.match(uri)) {
+            case MOVIES_ID:
+                returnUri = insertMovie(uri, values);
+                break;
+            default:
+                throw new UnsupportedOperationException("insert operation not supported");
+        }
+
+        return returnUri;
+    }
+
+    private Uri insertMovie(Uri uri, ContentValues values) {
+        long id = dbAdapter.insert(values);
+        getContext().getContentResolver().notifyChange(uri, null);
+        return Uri.parse("content://" + AUTHORITY + "/" + TABLE_MOVIES + "/" + id);
     }
 
     @Override
@@ -91,8 +119,16 @@ public class FavouriteMoviesProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
-        // TODO: Implement this to handle query requests from clients.
-        throw new UnsupportedOperationException("Not yet implemented");
+        Cursor cursor = null;
+        switch (URI_MATCHER.match(uri)) {
+            case MOVIES:
+                cursor = dbAdapter.getCursorsForAllMovies();
+                break;
+            default:
+                cursor = null;
+        }
+        //throw new UnsupportedOperationException("Not yet implemented");
+        return cursor;
     }
 
     @Override

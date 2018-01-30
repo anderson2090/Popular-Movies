@@ -124,6 +124,9 @@ public class DBAdapter {
         return sqLiteDatabase.delete(TABLE_MOVIES,
                 COLUMN_MOVIE_ID + " = " + movieId, null) > 0;
     }
+    public int delete(String whereClause, String [] whereValues){
+        return sqLiteDatabase.delete(TABLE_MOVIES,whereClause,whereValues);
+    }
 
     public Cursor getCursorsForAllMovies() {
         return sqLiteDatabase.query(TABLE_MOVIES, new String[]{COLUMN_MOVIE_ID, COLUMN_LOCAL_POSTER_PATH,

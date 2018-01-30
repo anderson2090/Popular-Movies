@@ -9,6 +9,7 @@ import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.Loader;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -132,32 +133,42 @@ public class DetailedActivity extends AppCompatActivity {
             public void onLoadFinished(Loader<String> loader, String s) {
                 ArrayList<Trailer> trailers = JsonHelper.json2Trailers(s);
                 LinearLayout traielrsVerticalLinearLayout = (LinearLayout) findViewById(R.id.trailersVerticalLinearLayout);
+                if (trailers.isEmpty()) {
+                    TextView trailersTextView = (TextView) findViewById(R.id.trailersTextView);
+                    trailersTextView.setText("There're no trailers for this movie");
+                } else {
+                    for (final Trailer trailer : trailers) {
+                        LinearLayout trailerLinearLayout = new LinearLayout(DetailedActivity.this);
+                        trailerLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
+                        TextView trailerNameTextView = new TextView(DetailedActivity.this);
+                        trailerNameTextView.setText(trailer.getName());
+                        trailerNameTextView.setTextSize(20);
 
-                for (final Trailer trailer : trailers) {
-                    LinearLayout trailerLinearLayout = new LinearLayout(DetailedActivity.this);
-                    trailerLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
-                    TextView trailerNameTextView = new TextView(DetailedActivity.this);
-                    trailerNameTextView.setText(trailer.getName());
-                    trailerNameTextView.setTextSize(18);
-                    ImageView playIconImageView = new ImageView(DetailedActivity.this);
-                    playIconImageView.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        params.setMargins(50, 25, 0, 25);
+                        trailerNameTextView.setLayoutParams(params);
+
+                        ImageView playIconImageView = new ImageView(DetailedActivity.this);
+                        playIconImageView.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+                        playIconImageView.setMinimumHeight(100);
+                        playIconImageView.setMinimumWidth(100);
 
 
-                    trailerLinearLayout.addView(playIconImageView);
-                    trailerLinearLayout.addView(trailerNameTextView);
+                        trailerLinearLayout.addView(playIconImageView);
+                        trailerLinearLayout.addView(trailerNameTextView);
 
 
+                        traielrsVerticalLinearLayout.addView(trailerLinearLayout);
 
-                    traielrsVerticalLinearLayout.addView(trailerLinearLayout);
 
+                        trailerNameTextView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
 
-                    trailerNameTextView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-
-                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(trailer.getKey())));
-                        }
-                    });
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(trailer.getKey())));
+                            }
+                        });
+                    }
                 }
                 getLoaderManager().initLoader(1, null, new LoaderManager.LoaderCallbacks<String>() {
                     @Override
@@ -170,24 +181,29 @@ public class DetailedActivity extends AppCompatActivity {
 
                         LinearLayout reviewsLinearLayout = (LinearLayout) findViewById(R.id.reviewsLinearLayout);
                         ArrayList<Review> reviews = JsonHelper.json2Reviews(s);
-                        for (Review review : reviews) {
-                            LinearLayout reviewLinearLayout = new LinearLayout(DetailedActivity.this);
-                            reviewLinearLayout.setOrientation(LinearLayout.VERTICAL);
-                            TextView reviewContentTextView = new TextView(DetailedActivity.this);
-                            reviewContentTextView.setText(review.getContent());
-                            reviewContentTextView.setTextSize(16);
+                        if (reviews.isEmpty()) {
+                            TextView reviewsTextView = (TextView) findViewById(R.id.reviewsTextView);
+                            reviewsTextView.setText("There're no reviews for this movie");
+                        } else {
+                            for (Review review : reviews) {
+                                LinearLayout reviewLinearLayout = new LinearLayout(DetailedActivity.this);
+                                reviewLinearLayout.setOrientation(LinearLayout.VERTICAL);
+                                TextView reviewContentTextView = new TextView(DetailedActivity.this);
+                                reviewContentTextView.setText(review.getContent());
+                                reviewContentTextView.setTextSize(16);
 
-                            TextView reviewAuthorTextView = new TextView(DetailedActivity.this);
+                                TextView reviewAuthorTextView = new TextView(DetailedActivity.this);
 
 
-                            reviewAuthorTextView.setText(review.getAuthor());
-                            reviewAuthorTextView.setTypeface(null, Typeface.BOLD);
+                                reviewAuthorTextView.setText(review.getAuthor());
+                                reviewAuthorTextView.setTypeface(null, Typeface.BOLD);
 
-                            reviewLinearLayout.addView(reviewContentTextView);
-                            reviewLinearLayout.addView(reviewAuthorTextView);
+                                reviewLinearLayout.addView(reviewContentTextView);
+                                reviewLinearLayout.addView(reviewAuthorTextView);
 
-                            reviewsLinearLayout.addView(reviewLinearLayout);
+                                reviewsLinearLayout.addView(reviewLinearLayout);
 
+                            }
                         }
 
                     }

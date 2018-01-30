@@ -20,7 +20,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.usama.popularmovies.contentprovider.FavouriteMoviesProvider;
 import com.example.usama.popularmovies.model.Movie;
@@ -29,7 +28,6 @@ import com.example.usama.popularmovies.model.Trailer;
 import com.example.usama.popularmovies.utils.DBAdapter;
 import com.example.usama.popularmovies.utils.HttpHelper;
 import com.example.usama.popularmovies.utils.JsonHelper;
-import com.example.usama.popularmovies.utils.MyDBHandler;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.uniquestudio.library.CircleCheckBox;

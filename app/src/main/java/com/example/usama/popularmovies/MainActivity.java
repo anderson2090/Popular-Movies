@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private DBAdapter dbAdapter;
     private ContentResolver contentResolver;
+    //This variable saves the current scroll state of the recyclerView
     Parcelable listState;
 
 
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        listState = null;
+
 
         setContentView(R.layout.activity_main);
         dbAdapter = DBAdapter.getDbAdapterInstance(this);

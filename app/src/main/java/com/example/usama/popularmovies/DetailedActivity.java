@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.usama.popularmovies.contentprovider.FavouriteMoviesProvider;
@@ -42,6 +43,7 @@ import java.util.ArrayList;
 public class DetailedActivity extends AppCompatActivity {
     public static Movie currentMovie;
     private DBAdapter dbAdapter;
+    ScrollView detailedActivityRootScrollView;
 
     private ContentResolver contentResolver;
 
@@ -50,6 +52,7 @@ public class DetailedActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed);
+        detailedActivityRootScrollView = (ScrollView) findViewById(R.id.detailedActivityScrollView);
         dbAdapter = DBAdapter.getDbAdapterInstance(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -305,6 +308,24 @@ public class DetailedActivity extends AppCompatActivity {
                 }
             }
         };
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putIntArray("ARTICLE_SCROLL_POSITION",
+                new int[]{ detailedActivityRootScrollView.getScrollX(), detailedActivityRootScrollView.getScrollY()});
+    }
+
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        final int[] position = savedInstanceState.getIntArray("ARTICLE_SCROLL_POSITION");
+        if(position != null)
+            detailedActivityRootScrollView.post(new Runnable() {
+                public void run() {
+                    detailedActivityRootScrollView.scrollTo(position[0], position[1]);
+                }
+            });
     }
 
 }

@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/detailedActivityScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -114,28 +115,27 @@
 
                 android:textSize="18sp"
                 tools:text="overview" />
+
             <View
                 android:id="@+id/SplitLine_hor1"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@id/detailedMovieOverviewTextView"
                 android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
                 android:layout_marginRight="5dp"
-                android:background="#000000"
-                android:layout_marginEnd="5dp" />
+                android:layout_marginTop="5dp"
+                android:background="#000000" />
 
         </RelativeLayout>
 
 
-
-
         <RelativeLayout
-            android:layout_marginLeft="10dp"
             android:id="@+id/trailersRelativeLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/overViewRelativeLayout"
+            android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp">
 
             <TextView
@@ -161,11 +161,11 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_marginLeft="10dp"
             android:id="@+id/reviewsRelativeLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/trailersRelativeLayout"
+            android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp">
 
             <TextView

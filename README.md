@@ -1,4 +1,4 @@
-# Popular-Movies
+# Google Android Developer NanoDegree 2nd and 3rd project.
 Android Developer NanoDegree by Google 2nd + 3rd project
 
 Stage 1:

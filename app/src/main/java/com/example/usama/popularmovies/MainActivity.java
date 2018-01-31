@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -38,26 +39,29 @@ import static com.example.usama.popularmovies.contracts.MovieDbApi.MovieAPiConst
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String> {
 
-   
 
     RecyclerView recyclerView;
-    RecyclerView.LayoutManager layoutManager;
+    GridLayoutManager layoutManager;
     MoviesRecyclerViewAdapter moviesAdapter;
     public static String sortBy = null;
     ArrayList<Movie> movies;
 
     private DBAdapter dbAdapter;
     private ContentResolver contentResolver;
+    Parcelable listState;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        listState = null;
+
         setContentView(R.layout.activity_main);
         dbAdapter = DBAdapter.getDbAdapterInstance(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         contentResolver = getContentResolver();
 
@@ -110,8 +114,28 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     protected void onResume() {
         super.onResume();
+        if (listState != null) {
+            layoutManager.onRestoreInstanceState(listState);
+        }
 
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle state) {
+        super.onSaveInstanceState(state);
+
+        // Save list state
+        listState = layoutManager.onSaveInstanceState();
+        state.putParcelable("State", listState);
+    }
+
+    protected void onRestoreInstanceState(Bundle state) {
+        super.onRestoreInstanceState(state);
+
+        // Retrieve list state and list/item positions
+        if (state != null)
+            listState = state.getParcelable("State");
     }
 
     @Override
@@ -195,14 +219,18 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         } else {
             movies = JsonHelper.json2Movies(s);
         }
+
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         layoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(layoutManager);
         moviesAdapter = new MoviesRecyclerViewAdapter(this);
 
-        recyclerView.setAdapter(moviesAdapter);
 
+        recyclerView.setAdapter(moviesAdapter);
         moviesAdapter.setMovies(movies);
+        if (listState != null) {
+            layoutManager.onRestoreInstanceState(listState);
+        }
 
 
     }
